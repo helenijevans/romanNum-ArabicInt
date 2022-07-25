@@ -1,6 +1,8 @@
 from flask import Flask
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 romInt = {
     "I": 1,
@@ -46,8 +48,14 @@ def intToRoman(integer):
     length = len(str(integer))
     potentialMax = base * 10 ** length
     subtractive = base * 10 ** (length - 1)
+    maxConversion = romInt.get(list(romInt)[-1])
 
-    if str(integer)[0] == str(potentialMax - subtractive)[0]:
+    if potentialMax > maxConversion:
+        result = ""
+        repeat = integer // maxConversion
+        for _ in range(repeat):
+            result += intRom.get(maxConversion)
+    elif str(integer)[0] == str(potentialMax - subtractive)[0]:
         result = intRom.get(subtractive) + intRom.get(potentialMax)
     elif potentialMax / 2 < integer < potentialMax:
         result = intRom.get(potentialMax / 2)
