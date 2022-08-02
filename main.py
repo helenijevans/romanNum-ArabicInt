@@ -22,6 +22,8 @@ def url():
 
 @app.route('/romanToInt/<romNum>', methods=['GET'])
 def romanToInt(romNum):
+    if not set(romNum).issubset(romInt.keys()):
+        return "Invalid characters. Valid roman characters are 'I,V, X, L, C, D, M'"
     total = 0
     for char in romNum:
         try:
@@ -38,7 +40,10 @@ def romanToInt(romNum):
 
 @app.route('/intToRoman/<integer>', methods=['GET'])
 def intToRoman(integer):
+    if not str(integer).isnumeric():
+        return "Input was not an integer. Please enter an integer"
     integer = int(integer)
+
     base = 1
     if integer == 0:
         return ""
